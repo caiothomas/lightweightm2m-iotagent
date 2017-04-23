@@ -23,58 +23,129 @@
 
 var config = {};
 
+
 config.lwm2m = {
-    logLevel: 'DEBUG',
-    port: 5684,
+    port: 5684,                         // Port where the server will be listening
+    lifetimeCheckInterval: 1000,        // Minimum interval between lifetime checks in ms
+    udpWindow: 100,
     defaultType: 'Device',
+    logLevel: 'DEBUG',
     ipProtocol: 'udp4',
-    serverProtocol: 'udp4',
+    serverProtocol: 'udp4',    
     /**
      * When a LWM2M client has active attributes, the IOTA sends an observe instruction for each one, just after the
      * client registers. This may cause cause an error when the client takes too long to start listening, as the
      * observe requests may not reach its destiny. This timeout (ms) is used to give the client the opportunity to
      * create the listener before the server sends the requests.
      */
-    delayedObservationTimeout: 50,
+    delayedObservationTimeout: 50,    
     formats: [
         {
             name: 'application-vnd-oma-lwm2m/text',
-            value: 1541
+            value: 0
         },
         {
             name: 'application-vnd-oma-lwm2m/tlv',
-            value: 1542
+            value: 11542
         },
         {
             name: 'application-vnd-oma-lwm2m/json',
-            value: 1543
+            value: 11543
         },
         {
             name: 'application-vnd-oma-lwm2m/opaque',
-            value: 1544
+            value: 42
         }
     ],
     writeFormat: 'application-vnd-oma-lwm2m/text',
-    types: [ ]
+    authenticate: true,    
+    dtls_opts : {
+        key: "/home/caio/Desktop/fiware/lwm2m-dtls/node-coap-dtls/examples/127_0_0_1.pkey",
+        debug: 1,
+        handshakeTimeoutMin: 3000
+    },
+    types: [
+        {
+            name: 'Room',
+            url: "/elemento/Room/rd"
+        }
+    ]
 };
 
-config.ngsi = {
+
+config.iota = {
     logLevel: 'DEBUG',
     contextBroker: {
-        host: '192.168.56.101',
-        port: '1026'
+        host: 'http://localhost',
+        port: '10026'
     },
     server: {
-        port: 4041
+        port: 4061
     },
+    authentication: {
+        enabled: true,
+        host: 'localhost',
+        port: '5000',
+        user: 'caio',
+        password: 'caio',
+        domain: 'figuardian'
+    },    
     deviceRegistry: {
-        type: 'mongodb',
- 	host: 'localhost'
+        type: 'memory',
+ 	    host: 'localhost'
     },
-    types: { },
-    service: 'smartGondor',
-    subservice: '/gardens',
-    providerUrl: 'http://192.168.56.1:4041',
+    types: {
+        'Device': {
+            apikey: 'apikey3',
+            type: 'Device',
+            trust: 'b17509-Trust',
+        },        
+        'Room': {           
+            apikey: 'apikey3',
+            type: 'Room',
+            trust: 'd0fa707131204b56a46103c53e67fab7',
+            service: 'figuardian',
+            subservice: '/ufu', 	
+            
+            "attributes": [
+                      {
+                        "name": "Longitude",
+                        "type": "number"
+                      }
+                    ],
+                    "lazy": [
+                      {
+                        "name": "Temperature",
+                        "type": "number"
+                      }
+                    ],
+                    "commands": [
+                      {
+                        "name": "Reboot"                       
+                      }
+                    ],
+                    "lwm2mResourceMapping": {
+                      "Longitude" : {
+                        "objectType": 6,
+                        "objectInstance": 0,
+                        "objectResource": 1
+                      },                      
+                    "Temperature" : {
+                        "objectType": 6,
+                        "objectInstance": 0,
+                        "objectResource": 2
+                      },
+                      "Reboot" : {
+                        "objectType": 6,
+                        "objectInstance": 0,
+                        "objectResource": 5
+                      }
+                    } 
+            }             
+    },
+    service: 'figuardian',
+    subservice: '/ufu',
+    providerUrl: 'http://192.168.1.7:4061',
     deviceRegistrationDuration: 'P1M'
 };
 
