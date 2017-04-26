@@ -77,10 +77,50 @@ config.iota = {
     logLevel: 'DEBUG',
     contextBroker: {
         host: 'http://localhost',
-        port: '10026'
+        port: '1027'
     },
+    /**
+     * The ngsi request will be with ssl connections
+     */
+    ssl: {
+        active: true,
+        keyFile: 'certificados/server/key.pem',
+        certFile: 'certificados/server/cert.pem',
+        //ca: 'certificados/mqtt.perm',
+        rejectUnauthorized: false
+    },
+
+    /**
+     * Configuration of the Northbound server of the IoT Agent.
+     */
     server: {
-        port: 4061
+        /**
+         * Port where the IoT Agent will be listening for requests.
+         */
+        port: 4061,
+        ssl : {
+            portSSL: 4062,
+        
+            /**
+             * This flag activates the HTTPS protocol in the server. The endpoint always listen to the indicated port
+             * independently of the chosen protocol.
+             */
+            active: true,
+
+            /**
+             * Key file to use for codifying the HTTPS requests. Only mandatory when the flag active is true.
+             */
+            keyFile: 'certificados/server/key.pem',
+
+            /**
+             * SSL Certificate to present to the clients. Only mandatory when the flag active is true.
+             */
+            certFile: 'certificados/server/cert.pem',
+
+            ca: '',
+            requestCert: false,
+            rejectUnauthorized: false                 
+        }       
     },
     authentication: {
         enabled: true,
@@ -145,7 +185,7 @@ config.iota = {
     },
     service: 'figuardian',
     subservice: '/ufu',
-    providerUrl: 'http://192.168.1.7:4061',
+    providerUrl: 'https://192.168.1.9:4062',//security connection
     deviceRegistrationDuration: 'P1M'
 };
 
