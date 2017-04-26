@@ -185,7 +185,8 @@ config.iota = {
     },
     service: 'figuardian',
     subservice: '/ufu',
-    providerUrl: 'https://192.168.1.9:4062',//security connection
+//    providerUrl: 'http://192.168.1.9:4061',
+   providerUrl: 'https://192.168.1.9:4062',//security connection
     deviceRegistrationDuration: 'P1M'
 };
 
