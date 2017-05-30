@@ -122,14 +122,32 @@ config.iota = {
             rejectUnauthorized: false                 
         }       
     },
+
     authentication: {
         enabled: true,
+        protocol: 'http://',
         host: 'localhost',
-        port: '5000',
+        port: '80',
+        path: '/orion/getToken.php',
         user: 'caio',
         password: 'caio',
         domain: 'figuardian'
-    },    
+    },
+
+    /**
+     *
+    authentication: {
+        enabled: true,
+        protocol: 'http://',
+        host: 'localhost',
+        port: '5000',
+        path: '/v3/auth/tokens',
+        user: 'caio',
+        password: 'caio',
+        domain: 'figuardian'
+    },
+    */
+
     deviceRegistry: {
         type: 'memory',
  	    host: 'localhost'
