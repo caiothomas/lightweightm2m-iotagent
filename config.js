@@ -129,6 +129,7 @@ config.iota = {
         host: 'localhost',
         port: '80',
         path: '/orion/getToken.php',
+        checktoken: '/orion/token.php',//verifica o token das requisições lazy e command no IoT Agent
         user: 'caio',
         password: 'caio',
         domain: 'figuardian'
