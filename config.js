@@ -60,7 +60,7 @@ config.lwm2m = {
     writeFormat: 'application-vnd-oma-lwm2m/text',
     authenticate: true,    
     dtls_opts : {
-        key: "/home/caio/Desktop/fiware/lwm2m-dtls/node-coap-dtls/examples/127_0_0_1.pkey",
+        key: "/certificados/127_0_0_1.pkey",
         debug: 1,
         handshakeTimeoutMin: 3000
     },
