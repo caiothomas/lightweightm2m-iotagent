@@ -1,11 +1,15 @@
-FROM centos:6
+FROM node:4.1
+ENV HOME=/iotagentlwm2m
 
-RUN yum update -y && yum install -y wget \
-  && wget http://ftp.rediris.es/mirror/fedora-epel/6/i386/epel-release-6-8.noarch.rpm && yum localinstall -y --nogpgcheck epel-release-6-8.noarch.rpm \
-  && yum install -y npm git
+WORKDIR $HOME
+COPY package.json $HOME/package.json
+COPY . $HOME
 
-COPY . /opt/iota-lwm2m
-WORKDIR /opt/iota-lwm2m
 RUN npm install
 
-ENTRYPOINT bin/lwm2mAgent.js config-blank.js
+EXPOSE 4071
+EXPOSE 4072
+EXPOSE 5683/udp
+EXPOSE 5684/udp
+
+CMD ["node","./bin/lwm2mAgent.js"]

@@ -1,0 +1,16 @@
+version: '2'
+services:
+ mongo:
+  image: mongo:3.4
+ iotagentlwm2m:
+  image: iotagentlwm2m
+  build: .
+  ports:
+   - "4071:4071"
+   - "4072:4072"
+   - "5683:5683/udp"
+   - "5684:5684/udp"
+  links:
+   - mongo
+  depends_on:
+   - mongo

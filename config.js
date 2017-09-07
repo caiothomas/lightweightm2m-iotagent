@@ -25,7 +25,7 @@ var config = {};
 
 
 config.lwm2m = {
-    port: 5684,                         // Port where the server will be listening
+    port: 5683,                         // Port where the server will be listening
     lifetimeCheckInterval: 1000,        // Minimum interval between lifetime checks in ms
     udpWindow: 100,
     defaultType: 'Device',
@@ -58,9 +58,9 @@ config.lwm2m = {
         }
     ],
     writeFormat: 'application-vnd-oma-lwm2m/text',
-    authenticate: true,    
+    authenticate: false,    
     dtls_opts : {
-        key: "/certificados/127_0_0_1.pkey",
+        key: "/home/caio/Desktop/fiware/lwm2m-dtls/node-coap-dtls/examples/127_0_0_1.pkey",
         debug: 1,
         handshakeTimeoutMin: 3000
     },
@@ -77,13 +77,13 @@ config.iota = {
     logLevel: 'DEBUG',
     contextBroker: {
         host: 'http://localhost',
-        port: '1027'
+        port: '1026'
     },
     /**
      * The ngsi request will be with ssl connections
      */
     ssl: {
-        active: true,
+        active: false,
         keyFile: 'certificados/server/key.pem',
         certFile: 'certificados/server/cert.pem',
         //ca: 'certificados/mqtt.perm',
@@ -97,15 +97,15 @@ config.iota = {
         /**
          * Port where the IoT Agent will be listening for requests.
          */
-        port: 4061,
+        port: 4071,
         ssl : {
-            portSSL: 4062,
+            portSSL: 4072,
         
             /**
              * This flag activates the HTTPS protocol in the server. The endpoint always listen to the indicated port
              * independently of the chosen protocol.
              */
-            active: true,
+            active: false,
 
             /**
              * Key file to use for codifying the HTTPS requests. Only mandatory when the flag active is true.
@@ -124,7 +124,7 @@ config.iota = {
     },
 
     authentication: {
-        enabled: true,
+        enabled: false,
         protocol: 'http://',
         host: 'localhost',
         port: '80',
@@ -150,9 +150,31 @@ config.iota = {
     */
 
     deviceRegistry: {
-        type: 'memory',
- 	    host: 'localhost'
+        type: 'memory'
     },
+    mongodb: {
+        /**
+         * Host where MongoDB is located. If the MongoDB used is a replicaSet, this property will contain a
+         * comma-separated list of the instance names or IPs.
+         */
+        host: 'mongo',
+
+        /**
+         * Port where MongoDB is listening. In the case of a replicaSet, all the instances are supposed to be listening
+         * in the same port.
+         */
+        port: '',
+
+        /**
+         * Name of the Mongo database that will be created to store IOTAgent data.
+         */
+        db: 'iotagentul'
+
+        /**
+         * Name of the set in case the Mongo database is configured as a Replica Set. Optional otherwise.
+         */
+        //replicaSet: ''
+},
     types: {
         'Device': {
             apikey: 'apikey3',
@@ -205,7 +227,7 @@ config.iota = {
     service: 'figuardian',
     subservice: '/ufu',
 //    providerUrl: 'http://192.168.1.9:4061',
-   providerUrl: 'https://192.168.1.9:4062',//security connection
+   providerUrl: 'https://192.168.1.8:4062',//security connection
     deviceRegistrationDuration: 'P1M'
 };
 
